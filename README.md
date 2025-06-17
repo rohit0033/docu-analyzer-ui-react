@@ -31,7 +31,7 @@ This is the frontend interface for the Asynchronous Document Analyzer, a web app
 ## 📦 Installation
 
 ```bash
-git clone https://github.com/yourusername/doc-analyzer-frontend.git
+git clone [https://github.com/yourusername/doc-analyzer-frontend.git](https://github.com/rohit0033/docu-analyzer-ui-react.git)
 cd doc-analyzer-frontend
 npm install
 ````
@@ -89,5 +89,5 @@ MIT License
 
 Built as part of the Asynchronous Document Analyzer system using OpenAI and LangChain.
 
-```
+
 ```
