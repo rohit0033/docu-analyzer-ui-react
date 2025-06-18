@@ -1,73 +1,93 @@
-# Welcome to your Lovable project
 
-## Project info
 
-**URL**: https://lovable.dev/projects/647cdf17-c29f-4b12-8b34-04095a71ee16
+````markdown
+# 🧠 Asynchronous Document Analyzer – Frontend
 
-## How can I edit this code?
+This is the frontend interface for the Asynchronous Document Analyzer, a web app that allows users to upload `.txt` files, track the analysis process, and view AI-generated insights using a Retrieval-Augmented Generation (RAG) pipeline.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🚀 Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/647cdf17-c29f-4b12-8b34-04095a71ee16) and start prompting.
+- Upload `.txt` file and receive a `jobId`
+- Check job status using the `jobId`
+- View structured AI analysis results:
+  - 📄 One-paragraph summary
+  - 🧠 Top 5 key topics
+  - 😊 Overall sentiment (Positive, Negative, Neutral)
+- Built with **React.js** and styled with **Tailwind CSS**
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## 🛠️ Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **React.js** (CRA or Vite)
+- **Tailwind CSS**
+- **Axios** – For API calls
+- **TypeScript** (optional but recommended)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 📦 Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+git clone [https://github.com/yourusername/doc-analyzer-frontend.git](https://github.com/rohit0033/docu-analyzer-ui-react.git)
+cd doc-analyzer-frontend
+npm install
+````
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🧪 Running the App
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+npm run dev    # or `npm start` if using CRA
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:5173` (Vite) or `http://localhost:3000` (CRA).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## ⚙️ Environment Variables
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Create a `.env` file in the root with the following:
 
-## What technologies are used for this project?
+```env
+VITE_API_BASE_URL=http://localhost:3001
+```
 
-This project is built with:
+Update this URL to match your backend server.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 📁 Folder Structure
 
-Simply open [Lovable](https://lovable.dev/projects/647cdf17-c29f-4b12-8b34-04095a71ee16) and click on Share -> Publish.
+```
+src/
+├── components/
+│   ├── FileUploadForm.tsx
+│   ├── JobStatusChecker.tsx
+│   └── ResultDisplay.tsx
+├── services/
+│   └── api.ts
+├── App.tsx
+├── main.tsx
+└── index.css
+```
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 📄 License
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT License
+
+---
+
+## 🙌 Credits
+
+Built as part of the Asynchronous Document Analyzer system using OpenAI and LangChain.
+
+
+```
