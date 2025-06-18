@@ -1,22 +1,25 @@
-
 import React, { useState, useEffect } from 'react';
-import { checkJobStatus } from '../services/api';
+import { checkJobStatus, getJobResults } from '../services/api';
 import ResultDisplay from './ResultDisplay';
 import { Search, Clock } from 'lucide-react';
 
 interface JobStatus {
+  jobId: string;
   status: 'processing' | 'completed' | 'failed';
-  result?: {
-    summary: string;
-    topics: string[];
-    sentiment: string;
-  };
-  error?: string;
+}
+
+interface JobResult {
+  jobId: string;
+  status: 'completed';
+  summary: string;
+  topics: string[];
+  sentiment: string;
 }
 
 const JobStatusChecker: React.FC = () => {
   const [jobId, setJobId] = useState('');
   const [jobStatus, setJobStatus] = useState<JobStatus | null>(null);
+  const [jobResult, setJobResult] = useState<JobResult | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
@@ -29,7 +32,16 @@ const JobStatusChecker: React.FC = () => {
         console.log('Polling result:', status);
         setJobStatus(status);
         
-        if (status.status === 'completed' || status.status === 'failed') {
+        if (status.status === 'completed') {
+          try {
+            const results = await getJobResults(id);
+            setJobResult(results);
+          } catch (resultErr) {
+            console.error('Failed to get results:', resultErr);
+            setError('Job is completed but failed to retrieve results');
+          }
+          stopPolling();
+        } else if (status.status === 'failed') {
           stopPolling();
         }
       } catch (err) {
@@ -64,6 +76,7 @@ const JobStatusChecker: React.FC = () => {
     setError(null);
     setIsChecking(true);
     setJobStatus(null);
+    setJobResult(null);
 
     try {
       const status = await checkJobStatus(jobId);
@@ -72,6 +85,15 @@ const JobStatusChecker: React.FC = () => {
       
       if (status.status === 'processing') {
         startPolling(jobId);
+      } else if (status.status === 'completed') {
+        try {
+          const results = await getJobResults(jobId);
+          setJobResult(results);
+        } catch (resultErr) {
+          console.error('Failed to get results:', resultErr);
+          setError('Job is completed but failed to retrieve results');
+        }
+        setIsChecking(false);
       } else {
         setIsChecking(false);
       }
@@ -86,6 +108,7 @@ const JobStatusChecker: React.FC = () => {
     stopPolling();
     setJobId('');
     setJobStatus(null);
+    setJobResult(null);
     setError(null);
   };
 
@@ -144,13 +167,19 @@ const JobStatusChecker: React.FC = () => {
               </div>
             )}
             
-            <ResultDisplay status={jobStatus} />
+            {jobResult && <ResultDisplay result={jobResult} />}
+            
+            {jobStatus.status === 'failed' && (
+              <div className="text-red-600 bg-red-50 p-4 rounded-lg">
+                Analysis failed. Please try uploading your document again.
+              </div>
+            )}
             
             {(jobStatus.status === 'completed' || jobStatus.status === 'failed') && (
               <div className="flex justify-center">
                 <button
                   onClick={handleReset}
-                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors"
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
                 >
                   Check Another Job
                 </button>
